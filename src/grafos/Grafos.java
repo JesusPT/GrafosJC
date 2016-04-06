@@ -6,7 +6,7 @@ package grafos;
  * @author J. P. Toledo
  */
 public class Grafos {
-    static grafo g = new grafo();    
+    static grafo g = new grafo("Lol");    
     
     
     /**

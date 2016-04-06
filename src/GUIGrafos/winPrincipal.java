@@ -21,8 +21,9 @@ import javax.swing.border.Border;
  */
 public class winPrincipal extends javax.swing.JFrame {
     
-    grafo graf = new grafo();
+    grafo graf;
     Random rand = new Random();
+    listaGrafos listaGraf = new listaGrafos();
     
     Graphics2D g2d;
     
@@ -37,15 +38,20 @@ public class winPrincipal extends javax.swing.JFrame {
     boolean heuristica = false;
     
     DefaultListModel lista = new DefaultListModel();
+    DefaultListModel listaG = new DefaultListModel();
     
     int f;
     int i;
+    int iG = 1;
     
     /**
      * Creates new form winPrincipal
      */
     public winPrincipal() {
         initComponents();
+        listaGraf.agregarGrafo(new grafo("Grafo" + iG));
+        iG++;
+        graf = listaGraf.grafos.get(0);
         Grafos.setSize(300, 321);
         infoNodo.setSize(500, 330);
         Grafos.setModal(true);
@@ -86,11 +92,11 @@ public class winPrincipal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        chkPeso = new javax.swing.JCheckBox();
+        chkDirigido = new javax.swing.JCheckBox();
+        chkHeuristica = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listG = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -220,10 +226,10 @@ public class winPrincipal extends javax.swing.JFrame {
             }
         });
         txtPeso.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 txtPesoInputMethodTextChanged(evt);
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -323,12 +329,22 @@ public class winPrincipal extends javax.swing.JFrame {
         jLabel2.setText("Grafos");
 
         jButton7.setText("Nuevo");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
-        jCheckBox1.setText("Peso");
+        chkPeso.setText("Peso");
 
-        jCheckBox2.setText("Dirigido");
+        chkDirigido.setText("Dirigido");
+        chkDirigido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkDirigidoActionPerformed(evt);
+            }
+        });
 
-        jCheckBox3.setText("Heuristica");
+        chkHeuristica.setText("Heuristica");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -337,10 +353,10 @@ public class winPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox1)
+                    .addComponent(chkDirigido)
+                    .addComponent(chkPeso)
                     .addComponent(jButton7)
-                    .addComponent(jCheckBox3))
+                    .addComponent(chkHeuristica))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -349,20 +365,20 @@ public class winPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton7)
                 .addGap(26, 26, 26)
-                .addComponent(jCheckBox2)
+                .addComponent(chkDirigido)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(chkPeso)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox3)
+                .addComponent(chkHeuristica)
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        listG.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listGValueChanged(evt);
+            }
         });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(listG);
 
         javax.swing.GroupLayout GrafosLayout = new javax.swing.GroupLayout(Grafos.getContentPane());
         Grafos.getContentPane().setLayout(GrafosLayout);
@@ -527,7 +543,12 @@ public class winPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        listaG.clear();
+        llenarModeloGrafos();
+        listG.setModel(listaG);
         Grafos.setVisible(true);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -762,6 +783,36 @@ public class winPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txtHeuristicaCaretUpdate
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+            listaGraf.agregarGrafo(new grafo("Grafo" + iG, chkDirigido.isSelected(), chkPeso.isSelected(), chkHeuristica.isSelected()));
+            iG++;
+            listaG.clear();
+            llenarModeloGrafos();
+            listG.setModel(listaG);
+        
+        
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void chkDirigidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDirigidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkDirigidoActionPerformed
+
+    private void listGValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listGValueChanged
+        if (evt.getValueIsAdjusting()) {
+            System.out.println(listG.getSelectedIndex());
+            int sel = listG.getSelectedIndex();
+            graf = listaGraf.grafos.get(sel);
+            dirigido = graf.getDirigido();
+            peso = graf.getPeso();
+            heuristica = graf.getHeuristica();
+            i = graf.getI();
+            
+            dibujaGrafo(grafoArea.getGraphics());
+        }
+        
+    }//GEN-LAST:event_listGValueChanged
     
     @Override
     public void paint(Graphics g){
@@ -845,6 +896,12 @@ public class winPrincipal extends javax.swing.JFrame {
             listaAdyacencia.setEnabled(false);
         }
         
+    }
+    
+    void llenarModeloGrafos(){
+        for (int j = 0; j < listaGraf.grafos.size(); j++) {
+            listaG.addElement(listaGraf.grafos.get(j).getNombre());
+        }
     }
     
     //llenar la ventana de la informacion de nodo
@@ -947,6 +1004,9 @@ public class winPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog Grafos;
     private javax.swing.JButton btoCambios;
+    private javax.swing.JCheckBox chkDirigido;
+    private javax.swing.JCheckBox chkHeuristica;
+    private javax.swing.JCheckBox chkPeso;
     private javax.swing.JPanel grafoArea;
     private javax.swing.JDialog infoNodo;
     private javax.swing.JButton jButton1;
@@ -955,9 +1015,6 @@ public class winPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -966,7 +1023,6 @@ public class winPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -975,6 +1031,7 @@ public class winPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> listG;
     private javax.swing.JList<String> listaAdyacencia;
     private javax.swing.JLabel nombreNodo;
     private javax.swing.JSlider slideB;

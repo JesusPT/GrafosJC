@@ -12,7 +12,46 @@ package grafos;
 public class grafo {
    public Nodo inicio;
    Nodo ulti;
-   boolean Tipo;
+   boolean dirigido;
+   boolean peso;
+   boolean heuristica;
+   String nomGrafo;
+   
+   int i;
+   
+   public grafo(String nom){
+       nomGrafo = nom;
+   }
+   
+   public grafo(String nom, boolean dirigido, boolean peso, boolean heuristica){
+       nomGrafo = nom;
+       this.dirigido = dirigido;
+       this.peso = peso;
+       this.heuristica = heuristica;
+   }
+   
+   
+   
+   public String getNombre(){
+       return nomGrafo;
+   }
+   
+   public boolean getDirigido(){
+       return dirigido;
+   }
+   
+   public boolean getPeso(){
+       return peso;
+   }
+   
+   public boolean getHeuristica(){
+       return heuristica;
+   }
+   
+   public int getI(){
+       return i;
+   }
+   
    public void agregarEstado(Nodo nuevo){
        if(inicio == null){
            inicio = nuevo;
