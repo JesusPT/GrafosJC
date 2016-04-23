@@ -757,7 +757,6 @@ public class winPrincipal extends javax.swing.JFrame {
             }
             */
             if(!evt.getValueIsAdjusting()){
-                System.out.println("Lo solte");
                 txtHeuristica.setEditable(true);
                 txtPeso.setEditable(true);
                 txtHeuristica.setText(String.valueOf(nodoInfo.ListaAdy.getNodo(listaAdyacencia.getSelectedValue()).getHeuristica()));
