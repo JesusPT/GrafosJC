@@ -37,7 +37,7 @@ public class Nodo {
         Dato = Info;
         Peso = peso;
         Heuristica = heu;
-        Nombre = Nom;
+        Nombre = Info;
     }
 
     public Nodo(String Info,int peso,int heu,String Nom, Color color) {

@@ -13,6 +13,7 @@ import grafos.*;
 import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /**
@@ -75,7 +76,7 @@ public class winPrincipal extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         slideB = new javax.swing.JSlider();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaAdyacencia = new javax.swing.JList<>();
+        listaAdyacencia = new javax.swing.JList<String>();
         btoCambios = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         nombreNodo = new javax.swing.JLabel();
@@ -96,7 +97,7 @@ public class winPrincipal extends javax.swing.JFrame {
         chkDirigido = new javax.swing.JCheckBox();
         chkHeuristica = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listG = new javax.swing.JList<>();
+        listG = new javax.swing.JList<String>();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -104,6 +105,7 @@ public class winPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        BtnEliminar = new javax.swing.JButton();
         grafoArea = new javax.swing.JPanel();
 
         infoNodo.setName("ventanaNodo"); // NOI18N
@@ -442,6 +444,14 @@ public class winPrincipal extends javax.swing.JFrame {
             }
         });
 
+        BtnEliminar.setText("Eliminar");
+        BtnEliminar.setName(""); // NOI18N
+        BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -449,8 +459,9 @@ public class winPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BtnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -458,9 +469,11 @@ public class winPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(4, 4, 4)
+                .addComponent(BtnEliminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -490,20 +503,20 @@ public class winPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        grafoArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                grafoAreaMouseDragged(evt);
-            }
-        });
         grafoArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                grafoAreaMouseReleased(evt);
+            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 grafoAreaMouseClicked(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 grafoAreaMousePressed(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                grafoAreaMouseReleased(evt);
+        });
+        grafoArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                grafoAreaMouseDragged(evt);
             }
         });
 
@@ -561,6 +574,7 @@ public class winPrincipal extends javax.swing.JFrame {
         i++;
         //agregar nodo
         graf.agregarEstado(new Nodo("Mi Nodo " + i, 0, 0, "Nodo"+i,new Color(rand.nextInt(255)+1, rand.nextInt(255)+1, rand.nextInt(255)+1)));
+        
         dibujaGrafo(grafoArea.getGraphics());
         
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -595,8 +609,6 @@ public class winPrincipal extends javax.swing.JFrame {
     private void grafoAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_grafoAreaMousePressed
         actual = graf.inicio;
         if(evt.getButton() == 1){
-            
-        
             while(actual != null){
                 if (actual.GUINodo.contains(evt.getX(),evt.getY())) {        
                     //System.out.println(actual.getNombre());
@@ -668,12 +680,23 @@ public class winPrincipal extends javax.swing.JFrame {
 
     //********************VETANA EMERGENTE INFO NODO***********************
     private void grafoAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_grafoAreaMouseClicked
-        if(evt.getClickCount() == 2){
+        if(evt.getClickCount()==1){
             actual = graf.inicio;
-            
             while(actual != null){
                 if (actual.GUINodo.contains(evt.getX(),evt.getY())) {
-                    //System.out.println(actual.getNombre());
+                    //System.out.println("Se selecciono: "+actual.getNombre());
+                    nodoInfo = actual;
+                    actual = null;
+                }else{
+                    actual = actual.Sigui;
+                }
+            }
+        }
+        if(evt.getClickCount() == 2){
+            actual = graf.inicio;
+            while(actual != null){
+                if (actual.GUINodo.contains(evt.getX(),evt.getY())) {
+                    System.out.println(actual.getNombre());
                     nodoInfo = actual;
                     actual = null;
                 }else{
@@ -698,7 +721,6 @@ public class winPrincipal extends javax.swing.JFrame {
                 nombreNodo.setText(nodoInfo.getNombre());
                 infoNodo.setVisible(true);
             }
-            
         }
     }//GEN-LAST:event_grafoAreaMouseClicked
     //efectuar cambios realizados en la ventana de informacion del nodo
@@ -813,6 +835,33 @@ public class winPrincipal extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_listGValueChanged
+
+    private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
+
+     if(!(nodoInfo==null)){
+         //System.out.println("Se va a eliminar:"+nodoInfo.getNombre());
+         try{
+             if(nodoInfo.ListaAdy!=null){
+                Nodo puntero = nodoInfo.ListaAdy.Inicio;
+                while(puntero != null){
+                    System.out.println("Adyacente: "+puntero.getNombre());
+                    graf.estado(puntero.getNombre()).ListaAdy.removerNodo(nodoInfo.getNombre());
+                    System.out.println("Lista despues de eliminar :");
+                    graf.elementosLista(puntero.getNombre());
+                    puntero = puntero.SiguiList;
+                }
+                nodoInfo.ListaAdy = null;  
+             }
+             graf.eliminarEstado(nodoInfo);
+        }catch(NullPointerException e){
+            lista.addElement("Lista vacia");
+        }
+     }else
+     {
+         JOptionPane.showMessageDialog(this, "No has seleccionado ningún grafo");
+     }
+     dibujaGrafo(grafoArea.getGraphics());
+    }//GEN-LAST:event_BtnEliminarActionPerformed
     
     @Override
     public void paint(Graphics g){
@@ -1002,6 +1051,7 @@ public class winPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnEliminar;
     private javax.swing.JDialog Grafos;
     private javax.swing.JButton btoCambios;
     private javax.swing.JCheckBox chkDirigido;

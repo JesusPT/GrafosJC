@@ -48,10 +48,40 @@ public class listAdy {
         return null;
     }
     
+    public void removerNodo(String Eliminando){
+        Nodo puntero = Inicio;
+        Nodo anterior = Inicio;
+        if(Inicio.Nombre.equals(Eliminando)){
+            Inicio=puntero.SiguiList;
+            puntero=null;
+        }
+        else{
+            while(puntero != null){
+                if(puntero.Nombre.equals(Eliminando)){
+                    System.out.println("Enontrado"+puntero.getNombre());
+                    if(Fin.Nombre.equals(puntero.Nombre)){
+                        Fin=anterior;
+                        Fin.SiguiList=null;
+                        puntero=null;
+                    }
+                    else
+                    {
+                      anterior.SiguiList=puntero.SiguiList; 
+                      puntero=null;
+                    }
+                }
+                else{
+                 anterior=puntero;
+                 puntero=puntero.SiguiList;   
+                }
+            }
+        }
+    }
+    
     void elementos(){
         Nodo aux = Inicio;
         while(aux != null){
-            System.out.println(aux.Dato);
+            System.out.println(aux.Nombre);
             aux = aux.SiguiList;
         }
     }

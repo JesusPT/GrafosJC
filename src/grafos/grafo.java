@@ -61,7 +61,28 @@ public class grafo {
            ulti = nuevo;
        }
    }
-   
+   //Método para eliminar un estado del grafo
+   public void eliminarEstado(Nodo eliminado){
+       Nodo puntero=inicio;
+       Nodo anterior=inicio;
+   if(inicio==eliminado){
+       inicio=inicio.Sigui;
+       eliminado=null;
+   }
+   else{
+       while(puntero != null){
+           if(puntero==eliminado){
+           anterior.Sigui=puntero.Sigui;
+           puntero=null;
+           }
+           else{
+            anterior=puntero;
+            puntero=puntero.Sigui;        
+           }
+        }
+    }
+   }
+   /******************************************************************/
    public void enlace(Nodo Origen, Nodo Destino){
        if(Origen.ListaAdy == null){
            Origen.ListaAdy = new listAdy();
@@ -76,12 +97,17 @@ public class grafo {
    public void elementosLista(String Dato){
        Nodo Estado = inicio;
        while(Estado != null){
-           if(Estado.Dato.equals(Dato)){
+           if(Estado.Nombre.equals(Dato)){
                Estado.ListaAdy.elementos();
            }
            Estado = Estado.Sigui;
        }
        
+   }
+   
+   public listAdy getListaNodo(String nombre){
+       
+       return estado(nombre).ListaAdy;
    }
    
    public Nodo estado(String nom){
@@ -94,7 +120,4 @@ public class grafo {
        }
        return null;
    }
-   
-   //aqui voy a hacer el metodo para eliminar
-   
 }

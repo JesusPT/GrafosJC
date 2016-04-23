@@ -14,9 +14,6 @@ public class Grafos {
      * Metodo Main de la clase que contiene la ventana principal
      */
     public static void main(String[] args) {
-        
-        
-        
         g.agregarEstado(new Nodo("Nodo1",1,1,"MiNodo"));
         g.agregarEstado(new Nodo("Nodo2",1,1,"MiNodo2"));
         g.agregarEstado(new Nodo("Nodo3",1,1,"MiNodo3"));
@@ -32,7 +29,9 @@ public class Grafos {
         System.out.println("Lista de adyacencia Nodo 2");
         g.elementosLista("Nodo2");
         
-        
+        /*g.inicio.ListaAdy.removerNodo("Nodo2","Nodo1");
+        System.out.println("Lista de adyacencia Nodo 1");
+        g.elementosLista("Nodo1");*/
     }
     
 }
