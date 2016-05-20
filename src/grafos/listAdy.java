@@ -5,6 +5,8 @@
  */
 package grafos;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author J. P. Toledo
@@ -84,5 +86,15 @@ public class listAdy {
             System.out.println(aux.Nombre);
             aux = aux.SiguiList;
         }
+    }
+    
+    ArrayList getElementos(){
+        ArrayList<Nodo> elementos = new ArrayList();
+        Nodo aux = Inicio;
+        while(aux != null){
+            elementos.add(aux);
+            aux = aux.SiguiList;
+        }
+        return elementos;
     }
 }
