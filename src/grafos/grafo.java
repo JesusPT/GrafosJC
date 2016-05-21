@@ -120,4 +120,15 @@ public class grafo {
        }
        return null;
    }
+   //Metodo para obtener el final de un grafo
+   public Nodo GetFin(){
+      Nodo aux = inicio;
+        while(aux != null){
+            if(aux.Sigui==null){
+                return aux;
+            }
+            aux = aux.SiguiList;
+        } 
+     return null;
+   }
 }
