@@ -45,7 +45,7 @@ public class Grafos {
 //        g.estado("Nodo3").ListaAdy.getNodo("Nodo5").setHeuristica(8);
 //        g.estado("Nodo4").ListaAdy.getNodo("Nodo5").setHeuristica(3);
 //
-        /*g.agregarEstado(new Nodo("A",1,1,"MiNodo"));
+    /*    g.agregarEstado(new Nodo("A",1,1,"MiNodo"));
         g.agregarEstado(new Nodo("B",1,1,"MiNodo2"));
         g.agregarEstado(new Nodo("C",1,1,"MiNodo3"));
         g.agregarEstado(new Nodo("D",1,1,"MiNodo4"));
@@ -70,7 +70,8 @@ public class Grafos {
         g.enlace(g.estado("F"), g.estado("G"));
     
         AlgoritmosCarlos obj = new AlgoritmosCarlos();
-        obj.RecorridoGuiado(g,g.estado("A"), g.estado("H"));
+        String recorrido=obj.RecorridoGuiado(g,g.estado("A"), g.estado("H"));
+        System.out.println("Recorrido:" +recorrido);
         
         /*System.out.println("Lista de adyacencia Nodo 1");
         g.elementosLista("Nodo1");

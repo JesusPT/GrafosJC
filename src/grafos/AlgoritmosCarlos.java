@@ -13,53 +13,49 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 public class AlgoritmosCarlos {
     public void Dijkstra(grafo g,Nodo origen){
-        /*creamos una cola de prioridad Q
-3      agregamos origen a la cola de prioridad Q
-4      mientras Q no este vacío:
-5          sacamos un elemento de la cola Q llamado u
-6          si u ya fue visitado continuo sacando elementos de Q    
-7          marcamos como visitado u
-8          para cada vértice v adyacente a u en el Grafo:
-9              sea w el peso entre vértices ( u , v )  
-10             si v no ah sido visitado:
-11                Relajacion( u , v , w )
-
-1  método Relajacion( actual , adyacente , peso ):
-2      si distancia[ actual ] + peso < distancia[ adyacente ]
-3         distancia[ adyacente ] = distancia[ actual ] + peso
-4         agregamos adyacente a la cola de prioridad Q*/
+        
     }
    
-    public void RecorridoGuiado(grafo g,Nodo inicio, Nodo fin){
+    public String RecorridoGuiado(grafo g,Nodo inicio, Nodo fin){
         ArrayList<Nodo> hijos;
-        g.GetFin();
+        ArrayList<String> recorrido= new ArrayList();
         Nodo actual;
         actual=inicio;
+        String nomhijos;
         boolean ban=false;
+        recorrido.add(actual.getNombre());
         while(!fin.getNombre().equals(actual.getNombre())){
+            nomhijos="";
             if(g.estado(actual.Nombre).ListaAdy!=null){
             hijos=g.estado(actual.Nombre).ListaAdy.getElementos();
                 for (int i = 0; i < hijos.size(); i++) {
-                    System.out.println(""+g.estado(hijos.get(i).Nombre).getNombre());
+                    //System.out.println(""+g.estado(hijos.get(i).Nombre).getNombre());
+                    nomhijos=nomhijos+"   "+g.estado(hijos.get(i).Nombre).getNombre();
                     if(g.estado(hijos.get(i).Nombre).getNombre().equals(fin.getNombre())){
                         //System.out.println(""+g.estado(hijos.get(i).Nombre).getNombre());
                         ban=true;
                         break;
-                        
                     }
                 }
                 if(!ban){
-                actual=g.estado(JOptionPane.showInputDialog("Ingrese el nodo por el que quiere irse"));
+                actual=g.estado(JOptionPane.showInputDialog("Ingrese el nodo por el que quiere irse \n"+nomhijos));
+                recorrido.add(actual.getNombre());
                 }
                 else{
                     actual=fin;
                 }
             }
             else{
-                System.out.println("Fin del recorrido");
+                //System.out.println("Fin del recorrido");
                 fin=actual;
             }    
         }
+        recorrido.add(fin.getNombre());
+        nomhijos="";
+        for (int i = 0; i < recorrido.size(); i++) {
+        nomhijos=nomhijos+" "+recorrido.get(i);    
+        }
+        return nomhijos;
     }
    public void ProEnProfundidad(grafo grafo, Nodo inicio, Nodo fin){
           Stack<Nodo> EstadoAbierto = new Stack<Nodo>();
